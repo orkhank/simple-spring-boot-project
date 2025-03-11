@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.Product;
 import com.example.demo.service.ProductService;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,8 @@ public class ProductController {
     }
 
     @PostMapping("/")
-    public Product saveProduct(@Validated @RequestBody Product product) {
-        return productService.saveProduct(product);
+    public ResponseEntity<Product> saveProduct(@Validated @RequestBody Product product) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.saveProduct(product));
     }
 
     @GetMapping("/")
