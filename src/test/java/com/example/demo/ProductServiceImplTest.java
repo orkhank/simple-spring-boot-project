@@ -1,7 +1,11 @@
 package com.example.demo;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.example.demo.entity.Product;
 import com.example.demo.repository.ProductRepository;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,22 +17,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-
 @ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
-    @InjectMocks
-    private ProductServiceImpl productService;
+    @InjectMocks private ProductServiceImpl productService;
 
-    @Mock
-    private ProductRepository productRepository;
+    @Mock private ProductRepository productRepository;
 
     @Test
     void testSaveProduct() {
-        Product product =
-                Product.builder().name("Test Product").price(100).build();
+        Product product = Product.builder().name("Test Product").price(100).build();
 
         Mockito.when(productRepository.save(Mockito.any(Product.class))).thenReturn(product);
 
@@ -42,13 +39,10 @@ class ProductServiceImplTest {
 
     @Test
     void testFetchProductList() {
-        Product product1 =
-                Product.builder().name("Product 1").price(50).build();
-        Product product2 =
-                Product.builder().name("Product 2").price(150).build();
+        Product product1 = Product.builder().name("Product 1").price(50).build();
+        Product product2 = Product.builder().name("Product 2").price(150).build();
 
-        Mockito.when(productRepository.findAll()).thenReturn(Arrays.asList(product1,
-                product2));
+        Mockito.when(productRepository.findAll()).thenReturn(Arrays.asList(product1, product2));
 
         List<Product> productList = productService.fetchProductList();
 
@@ -61,13 +55,12 @@ class ProductServiceImplTest {
 
     @Test
     void testUpdateProduct() {
-        Product existingProduct =
-                Product.builder().name("Old Product").price(50).build();
-        Product updatedProduct =
-                Product.builder().name("Updated Product").price(75).build();
+        Product existingProduct = Product.builder().name("Old Product").price(50).build();
+        Product updatedProduct = Product.builder().name("Updated Product").price(75).build();
 
         Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(existingProduct));
-        Mockito.when(productRepository.save(Mockito.any(Product.class))).thenReturn(existingProduct);
+        Mockito.when(productRepository.save(Mockito.any(Product.class)))
+                .thenReturn(existingProduct);
 
         productService.updateProduct(updatedProduct, 1L);
 

@@ -1,8 +1,13 @@
 package com.example.demo.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.example.demo.entity.Product;
 import com.example.demo.service.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,25 +19,25 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @WebMvcTest(ProductController.class)
 public class ProductControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @Autowired private MockMvc mockMvc;
 
-    @MockitoBean
-    private ProductService productService;
+    @MockitoBean private ProductService productService;
 
     @Test
     void testSaveProduct() throws Exception {
         Product product = new Product(1L, "Product A", 100);
         Mockito.when(productService.saveProduct(Mockito.any(Product.class))).thenReturn(product);
 
-        mockMvc.perform(post("/products/").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(product))).andExpect(status().isOk()).andExpect(jsonPath("$.name").value("Product A")).andExpect(jsonPath("$.price").value(100.0));
+        mockMvc.perform(
+                        post("/products/")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(new ObjectMapper().writeValueAsString(product)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Product A"))
+                .andExpect(jsonPath("$.price").value(100.0));
 
         Mockito.verify(productService, Mockito.times(1)).saveProduct(Mockito.any(Product.class));
     }
@@ -45,7 +50,10 @@ public class ProductControllerTest {
 
         Mockito.when(productService.fetchProductList()).thenReturn(products);
 
-        mockMvc.perform(get("/products/").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(jsonPath("$[0].name").value("Product A")).andExpect(jsonPath("$[1].name").value("Product B"));
+        mockMvc.perform(get("/products/").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("Product A"))
+                .andExpect(jsonPath("$[1].name").value("Product B"));
 
         Mockito.verify(productService, Mockito.times(1)).fetchProductList();
     }
@@ -55,9 +63,14 @@ public class ProductControllerTest {
         Product product = new Product(1L, "Updated Product", 150);
         Long productId = 1L;
 
-        mockMvc.perform(put("/products/{id}", productId).contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(product))).andExpect(status().isOk());
+        mockMvc.perform(
+                        put("/products/{id}", productId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(new ObjectMapper().writeValueAsString(product)))
+                .andExpect(status().isOk());
 
-        Mockito.verify(productService, Mockito.times(1)).updateProduct(Mockito.any(Product.class), Mockito.eq(productId));
+        Mockito.verify(productService, Mockito.times(1))
+                .updateProduct(Mockito.any(Product.class), Mockito.eq(productId));
     }
 
     @Test
