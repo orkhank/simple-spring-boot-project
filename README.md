@@ -1,4 +1,4 @@
-# Product Management API for Spring Boot
+# Product Management API (Spring Boot)
 
 > A barebones scenario to practice REST API development using Spring Boot.
 
