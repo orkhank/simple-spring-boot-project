@@ -1,6 +1,6 @@
 # Product Management API for Spring Boot
 
-> A barebones scenario to practice of REST API development using Spring Boot.
+> A barebones scenario to practice REST API development using Spring Boot.
 
 ## To run the app
 
