@@ -1,6 +1,10 @@
 # Product Management API (Spring Boot)
 
-> A barebones scenario to practice REST API development using Spring Boot.
+> - A barebones scenario to practice REST API development using Spring Boot.
+>
+> - The requests to the server are cached utilizing the `spring-boot-starter-cache` package.
+>
+> - Supports multiple nodes with cache synchronization with `Hazelcast`.
 
 ## To run the app
 
