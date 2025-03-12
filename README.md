@@ -14,6 +14,6 @@ The application will run on http://localhost:8080/.
 
 ### To see the API documentation
 
-Visit http://localhost:8080/swagger-ui/index.html/. This endpoint is automatically generated with the
+Visit http://localhost:8080/swagger-ui/index.html. This endpoint is automatically generated with the
 [`the springdoc-openapi-starter-webmvc-ui`](https://central.sonatype.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui)
 package.
