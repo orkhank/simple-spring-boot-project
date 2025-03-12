@@ -6,7 +6,7 @@
 >
 > - Supports multiple nodes with cache synchronization with `Hazelcast`.
 
-## To run the app
+## To run the app (Single Node)
 
 Use the tools provided by your IDE or navigate to the root of the project via command line and execute the command
 
