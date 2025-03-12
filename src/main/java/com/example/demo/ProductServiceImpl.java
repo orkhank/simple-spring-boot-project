@@ -27,7 +27,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @CachePut(value = PRODUCT_CACHE, key = "#product.id")
     public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
