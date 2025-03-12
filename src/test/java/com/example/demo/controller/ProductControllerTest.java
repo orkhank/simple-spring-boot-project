@@ -35,7 +35,7 @@ public class ProductControllerTest {
                         post("/products/")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(product)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Product A"))
                 .andExpect(jsonPath("$.price").value(100.0));
 
