@@ -7,9 +7,6 @@ import com.example.demo.service.ProductService;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +14,9 @@ import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    private static final String PRODUCT_CACHE = "PRODUCT_CACHE";
     @Autowired private ProductRepository productRepository;
 
     @Override
-    @Cacheable(value = PRODUCT_CACHE, key = "#productId")
     public Optional<Product> getProduct(Long productId) {
         return productRepository.findById(productId);
     }
@@ -38,7 +33,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    @CachePut(value = PRODUCT_CACHE, key = "#productId")
     public Optional<Product> updateProduct(Product product, Long productId) {
         Optional<Product> foundProduct = productRepository.findById(productId);
         if (foundProduct.isEmpty()) return Optional.empty();
@@ -51,7 +45,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @CacheEvict(value = PRODUCT_CACHE, key = "#productId")
     public void deleteProductById(Long productId) {
         productRepository.deleteById(productId);
     }
