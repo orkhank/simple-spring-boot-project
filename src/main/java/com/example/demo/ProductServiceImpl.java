@@ -39,16 +39,15 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     @CachePut(value = PRODUCT_CACHE, key = "#productId")
-    public void updateProduct(Product product, Long productId) {
-        productRepository
-                .findById(productId)
-                .ifPresent(
-                        product1 -> {
-                            product1.setName(product.getName());
-                            product1.setPrice(product.getPrice());
+    public Optional<Product> updateProduct(Product product, Long productId) {
+        Optional<Product> foundProduct = productRepository.findById(productId);
+        if (foundProduct.isEmpty()) return Optional.empty();
 
-                            productRepository.save(product1);
-                        });
+        Product updatedValues = foundProduct.get();
+        updatedValues.setName(product.getName());
+        updatedValues.setPrice(product.getPrice());
+
+        return Optional.of(productRepository.save(updatedValues));
     }
 
     @Override
