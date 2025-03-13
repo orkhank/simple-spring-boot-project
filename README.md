@@ -48,3 +48,6 @@ package.
    The created nodes will share a distributed cache between them, as enabled by Hazelcast.*
 
    The applications will start on `localhost` using the ports specified by the `--server.port` arguments.
+
+   > [!NOTE]
+   > Although these nodes share a cache, the underlying datasets on which they depend are **not distributed**.
