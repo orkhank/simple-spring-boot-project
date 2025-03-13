@@ -51,3 +51,67 @@ package.
 
    > [!NOTE]
    > Although these nodes share a cache, the underlying datasets on which they depend are **not distributed**.
+
+<details>
+
+<summary>Caching Demonstration</summary>
+
+For convenience, the application uses an in-memory H2 database, which does not support distributed operations. However, this setup clearly demonstrates distributed caching communication between the nodes, as shown in the following example.
+
+### Example
+
+> Prerequisites: two nodes running on ports 8080 and 8081 on localhost (see [To Run Multiple Nodes](#to-run-multiple-nodes)).
+
+> [!NOTE]
+> These examples rely on the assumption that all H2 databases start out empty.
+
+1. Add a product to the node running on port 8080:
+   ```shell
+   curl --location 'http://localhost:8080/products/' \
+   --header 'Content-Type: application/json' \
+   --data '{
+       "name": "laptop1",
+       "price": 100
+   }'
+
+   # Expected response:
+   # {
+   #     "id": 1,
+   #     "name": "laptop1",
+   #     "price": 100
+   # }
+   ```
+
+2. Search for the added product on the other node (port 8081):
+   ```shell
+   curl --location 'http://localhost:8081/products/1'
+
+   # Expected response: 404 since the product is not in the global cache or in the local DB.
+   ```
+
+3. Search for the added product on the original node (port 8080):
+   ```shell
+   curl --location 'http://localhost:8080/products/1'
+
+   # Expected response:
+   # {
+   #     "id": 1,
+   #     "name": "laptop1",
+   #     "price": 100
+   # }
+   ```
+   This saves the response in the distributed cache.
+
+4. Repeat step 2:
+   ```shell
+   curl --location 'http://localhost:8081/products/1'
+
+   # Expected response (retrieved from the distributed cache):
+   # {
+   #     "id": 1,
+   #     "name": "laptop1",
+   #     "price": 100
+   # }
+   ```
+
+</details>
