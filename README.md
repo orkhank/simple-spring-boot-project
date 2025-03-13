@@ -19,7 +19,8 @@ The application will run on http://localhost:8080/.
 ### To see the API documentation
 
 Visit http://localhost:8080/swagger-ui/index.html. This endpoint is automatically generated with the
-[`the springdoc-openapi-starter-webmvc-ui`](https://central.sonatype.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui)
+[
+`the springdoc-openapi-starter-webmvc-ui`](https://central.sonatype.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui)
 package.
 
 ## To Run Multiple Nodes
@@ -42,6 +43,8 @@ package.
     # .........................
     ```
 
-   You can create as many nodes as you want like this, provided that the `--server.port` arguments are set to be **unique** across runs.
+   You can create as many nodes as you want, provided that the `--server.port` arguments are set to be **unique** across
+   runs.
+   The created nodes will share a distributed cache between them, as enabled by Hazelcast.*
 
-   The applications will start on `localhost` with the ports specified by the `--server.port` arguments.
+   The applications will start on `localhost` using the ports specified by the `--server.port` arguments.
