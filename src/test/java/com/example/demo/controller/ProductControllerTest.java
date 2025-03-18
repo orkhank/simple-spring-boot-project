@@ -7,16 +7,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.example.demo.entity.Product;
 import com.example.demo.service.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hazelcast.core.Hazelcast;
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.map.IMap;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,17 +21,10 @@ import java.util.List;
 
 @WebMvcTest(ProductController.class)
 public class ProductControllerTest {
-    @TestConfiguration
-    static class EmployeeServiceImplTestContextConfiguration {
-        @Bean
-        public IMap<Long, Product> productCache() {
-            HazelcastInstance instance = Hazelcast.newHazelcastInstance();
-            return instance.getMap("map");
-        }
-    }
-
     @Autowired private MockMvc mockMvc;
-    @MockitoBean private ProductService productService;
+
+    @MockitoBean(name = "cachedProductService")
+    private ProductService productService;
 
     @Test
     void testSaveProduct() throws Exception {
