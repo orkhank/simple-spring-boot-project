@@ -21,6 +21,7 @@ import java.util.List;
 
 @WebMvcTest(ProductController.class)
 public class ProductControllerTest {
+
     @Autowired private MockMvc mockMvc;
 
     @MockitoBean(name = "cachedProductService")

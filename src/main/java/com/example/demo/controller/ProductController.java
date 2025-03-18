@@ -25,12 +25,8 @@ public class ProductController {
     public ResponseEntity<Product> fetchProduct(@PathVariable("id") Long productId) {
         Optional<Product> fetched = productService.getProduct(productId);
 
-        if (fetched.isPresent()) {
-            Product product = fetched.get();
-            return ResponseEntity.ok(product);
-        }
-
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return fetched.map(ResponseEntity::ok)
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/")
