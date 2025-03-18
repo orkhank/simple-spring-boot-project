@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public List<Product> fetchDepartmentList() {
+    public List<Product> fetchProductList() {
         return productService.fetchProductList();
     }
 
